@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet, Alert, TouchableOpacity, Button, TextInput, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Button, TextInput, Image} from 'react-native';
 import HomeScreen from './HomeScreen';
 import firebase from 'firebase';
 
-export default class LoginScreen extends React.Component {
+export default class SignupScreen extends React.Component {
 
 
   constructor(props){
@@ -15,18 +15,37 @@ export default class LoginScreen extends React.Component {
   }
 
 
+  signUpUser = (email,password) =>{
+    try{
+
+      if(this.state.password.length<6)
+      {
+        alert("Please enter at least 6 characters")
+        return;
+      }
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+
+    }
+    catch(error){
+      console.log(error.toString())
+    }
+
+  }
+
   loginUser = (email,password) =>{
 
-      firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.props.navigation.navigate('Home')
-    
-    }, (error)=> {
+    try {
+      firebase.auth().signInWithEmailAndPassword(email, password).then(function(user){
 
-        alert(error.message);
-      }
-      
-      )
+        console.log(user)
+      })
+
+    }
+    catch(error){
+
+      console.log(error.toString())
+    }
   }
 
 
@@ -34,6 +53,8 @@ export default class LoginScreen extends React.Component {
     static navigationOptions = {
         header: null
       };
+
+
 
 
 
@@ -46,15 +67,14 @@ export default class LoginScreen extends React.Component {
 
         <View style={styles.inputFieldContainer}>
                 <Text style={styles.buttonText}>
-                    Welcome back!
+                    Nice to meet you,
                 </Text>
                 <Text style={styles.buttonText}>
                    👋
                 </Text>
 
-
         <TextInput style={styles.inputBar}
-        placeholder="Email"
+        placeholder="What's your email?"
         onChangeText={(email) => this.setState({email})}
         />
 
@@ -68,16 +88,16 @@ export default class LoginScreen extends React.Component {
                 
         <TouchableOpacity
         style ={styles.ctaButtonBacking}
-        onPress={() => this.loginUser(this.state.email,this.state.password)}
+        onPress={() => this.signUpUser(this.state.email,this.state.password)}
         >
 
-        <Text style={styles.ctaButtonText}>Login</Text>
+        <Text style={styles.ctaButtonText}>Sign up</Text>
 
          </TouchableOpacity>
 
-</View>
 
 
+        </View>
         );
     }
 }
@@ -86,7 +106,10 @@ export default class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-   
+    inputFieldContainer:{
+
+        flex: 1
+    },
 
       buttonText:{
         fontFamily: 'poppins',
@@ -116,10 +139,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#175B54',
         width: 300,
         height: 50,
+        marginTop: -20,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
-        marginTop: 30
+        marginBottom: 100
     },
 
 

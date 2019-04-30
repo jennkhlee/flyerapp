@@ -21,6 +21,7 @@ export default class SearchScreen extends React.Component {
       data: [],
       error: null
     };
+  
     this.arrayholder =[];
   }
 
@@ -29,12 +30,13 @@ componentDidMount(){
 
   this.makeRemoteRequest();
 
+
 }
 
 
 makeRemoteRequest = () => {
 
-    const url = `http://www.json-generator.com/api/json/get/cpEwWskPPC?indent=2`;
+    const url = '/Users/jennkhlee/Desktop/flyervolapp/data/fake_data/searchData.json';
     this.setState({ loading : true });
 
     fetch(url)
@@ -61,7 +63,7 @@ makeRemoteRequest = () => {
   };
 
 
-
+// FILTERING FUNCTION
   searchFilterFunction = text => {
 
     const newData = this.arrayholder.filter(item => {
@@ -84,7 +86,7 @@ makeRemoteRequest = () => {
       <View style={styles.container}>
       <TextInput style={styles.inputBar}
         placeholder="Search for events, organizations, or posts..."
-        onChangeText = { text => this.searchFilterFunction(text) }
+        onChangeText = { text => this.searchFilterFunction(text)}
         autoCorrect = { false }
         />
         </View>
@@ -122,6 +124,7 @@ makeRemoteRequest = () => {
             />
 
           )}
+
           keyExtractor={item => item.address}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
