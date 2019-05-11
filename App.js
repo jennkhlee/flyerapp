@@ -2,10 +2,50 @@ import React from 'react';
 import { Platform, Text, StatusBar, StyleSheet, View, Button } from 'react-native';
 import { StackNavigator, createAppContainer, createSwitchNavigator, createStackNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
 import { AppLoading, Asset, Font, Icon } from 'expo';
+
+import * as firebase from 'firebase';
+
 import AppNavigator from './navigation/AppNavigator'
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
-import AccountScreen from './screens/AccountScreen';
+import OrganizationScreen from './screens/OrganizationScreen';
+import SearchScreen_temp from './screens/SearchScreen_temp';
+import EventScreen from './screens/EventScreen';
+import Discover from './screens/DiscoverScreen';
+import OrgFeed from './screens/OrgFeed';
+import EventFeed from './screens/EventFeed';
+
+
+// Required for side-effects
+require("firebase/firestore");
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA1NtGfUqZQrvan6J3pJz8XbrEyKCGLIyE",
+  authDomain: "flyerapp-test.firebaseapp.com",
+  databaseURL: "https://flyerapp-test.firebaseio.com",
+  projectId: "flyerapp-test",
+  storageBucket: "flyerapp-test.appspot.com",
+
+};
+
+
+const AppNavi = createStackNavigator(
+  {
+    Events: EventFeed,
+    Orgs: OrgFeed,
+
+    Events: EventFeed,
+    Organization: OrganizationScreen,
+    Event: EventScreen
+  },
+
+  {
+    initialRouteName: 'Events'
+  }
+
+)
+
+const AppContainer = createAppContainer(AppNavi);
 
 
 export default class App extends React.Component {
@@ -17,13 +57,11 @@ export default class App extends React.Component {
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
-        <AppLoading
-        // PUT IN YOUR OWN LOADING SCREEN HERE
 
+        <AppLoading
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
-
         />
       );
 
@@ -33,8 +71,8 @@ export default class App extends React.Component {
         <View style={styles.container}>
 
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <AppNavigator />
 
-        <AppNavigator />
         </View>
       );
     }
@@ -50,32 +88,24 @@ export default class App extends React.Component {
       ]),
 
       Font.loadAsync({
-
         ...Icon.Ionicons.font,
-        // LOADING TYPEFACES
+
         'poppins': require('./assets/fonts/Poppins-Regular.ttf'),
         'poppins-bold': require('./assets/fonts/Poppins-Bold.ttf')
-
       }),
     ]);
   };
 
 
-  // Error handling
   _handleLoadingError = error => {
-
     console.warn(error);
 
   };
 
-  // Loading complete
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
 }
-
-
-
 
 
 // Style
