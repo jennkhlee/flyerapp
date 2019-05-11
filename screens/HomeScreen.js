@@ -9,12 +9,11 @@ import {
   ActivityIndicator,
   FlatList,
   View,
+  Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
 import Card from '../components/Card';
-import Feed from '../components/Feed'
-
+import Feed from '../components/Feed';
 
 
 export default class HomeScreen extends React.Component {
@@ -27,199 +26,136 @@ render(){
 
 return(
 
-  <View style={styles.container}>
 
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={styles.container}>
 
-       <View style={styles.welcomeContainer}>
-         <Image
-           source={
-             __DEV__
-               ? require('../assets/images/shapes1.png')
-               : require('../assets/images/shapes1.png')
-           }
-           style={styles.welcomeImage}
-         />
 
-         <Text style={styles.welcomeText}>
-         Good morning, Monica
-         </Text>
-         
-         <View style={styles.welcomeCardBacking}>
-         <Text style={styles.developmentModeText}>
-         You have one event coming up today.
-         </Text>
+       <View style={{backgroundColor:'#F8F3E7', height:200}}>
+
+            <Image style={{opacity: 0.75, height: 200, marginLeft:100,resizeMode:'cover', position: 'absolute'}}
+                      source={require('/Users/jennkhlee/Desktop/flyervolapp/assets/images/sqpattern1.png')}
+            />
+
+          <View style={{marginTop: 70, marginLeft:20}}>
+
+              <Text style={styles.welcomeText}>
+                Good morning, Monica
+              </Text>
+              
+              <View style={styles.welcomeCardBacking}>
+                      <Text style={styles.bodyCopyText}>
+                      You have one event coming up today.
+                      </Text>
+              </View>
+
          </View>
+
+
+         </View>
+
+
+
+      <View style={styles.homeNav}>
+        <Text style={styles.navText}
+        onPress={() => this.props.navigation.navigate('Home')}>
+
+        Feed
+        </Text>
+
+
+        <Text style={styles.navText}
+        onPress={() => this.props.navigation.navigate('Discover')}>
+        Discover
+        </Text>
+
+        <Text style={styles.navText}>
+        Map
+        </Text>
+        </View>
+
+
+
+        <Button title='Learn more'
+        onPress={() => this.props.navigation.navigate('Event')}>
+        </Button>
+
 
         <Feed />
 
-      </View>
+
+
 
     </ScrollView>
-  </View>
 
 );
 }}
 
 const styles = StyleSheet.create({
 
+
+  homeNav:{
+    backgroundColor: '#F8F3E7',
+    height: 63,
+    width: '100%',
+    flexDirection:'row',
+    justifyContent: 'flex-start',
+    alignContent: 'space-between'
+  },
+
+  navText:{
+    fontFamily: 'poppins',
+    color:'#AC8E5B',
+    fontSize:20,
+    padding: 20,
+    marginLeft: 10
+
+  },
+
   welcomeCardBacking: {
 
     backgroundColor: 'white',
     width: 270,
-    height: 40,
+    height: 38,
     shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 1,
+    shadowOpacity: 0.09,
+    shadowRadius: 5,
     shadowOffset:{
         width:1,
         height:1
     },
     borderRadius: 8,
-    marginLeft: 30,
-    marginBottom: 10
+    marginTop:10,
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginBottom: 30
 
-},
-
-
-  card: {
-    backgroundColor: 'white',
-    width: '100%',
-    height: 300,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 1,
-    shadowOffset:{
-        width:3,
-        height:3
-    },
-    marginBottom: 3,
-},
-
-cardTitle: {
-    fontFamily: 'poppins-bold',
-    fontSize: 16,
-    color: 'black',
-    padding: 25,
-    marginBottom: 1
-},
-
-cardText: {
-    fontFamily: 'poppins',
-    fontSize: 12,
-    color: 'black',
-    padding: 25,
-    marginTop: -45
-
-},
-
-orgText: {
-    fontFamily: 'poppins-bold',
-    fontSize: 12,
-    color: 'black',
-    padding: 25,
-    lineHeight: 10,
-    marginTop: -45
 },
 
 
   container: {
     flex: 1,
-    backgroundColor: '#f8f3e7',
+    backgroundColor: '#f8f8f8',
   },
 
-  developmentModeText: {
-    padding: 20,
+  bodyCopyText: {
     color: 'black',
     fontSize: 12,
-    lineHeight: 12,
     textAlign: 'center',
     fontFamily: 'poppins'
   },
-
-  contentContainer: {
-    paddingTop: 30,
-    backgroundColor: '#f8f3e7'
-  },
-
-
-
-
-  welcomeContainer: {
-    marginTop: 10,
-    marginBottom: 20,
-    backgroundColor: '#f8f3e7'
-  },
-
-
-
-  welcomeImage: {
-    width: 150,
-    height: 150,
-    resizeMode: 'contain',
-    marginTop: 0,
-    marginLeft: 200,
-  },
-
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-
-
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-
 
 
 
 
   welcomeText: {
-    marginTop: -150,
     fontSize: 20,
     color: 'black',
-    lineHeight: 20,
     textAlign: 'left',
-    padding: 20,
     fontFamily: 'poppins-bold'
 
   },
 
 
-
-
-
-
-  // Tab info container thing
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 20,
-  },
 
   tabBarInfoText: {
     fontSize: 17,
